@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Karline — 40 Anos | Memórias Inesquecíveis</title>
+  
+  <!-- Fonts: Playfair Display, Great Vibes, Cormorant Garamond, Montserrat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- QR Code generation library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'card-cream': '#fbf7ee',
+            'gold-border': '#d4af37',
+            'gold-dark': '#b89028',
+            'gold-light': '#f3e6a3',
+            'green-botanical': '#2c4333',
+            'green-leaf': '#4a604f',
+            'dark-charcoal': '#1a1a1a',
+          },
+          fontFamily: {
+            serif: ['"Playfair Display"', 'Georgia', 'serif'],
+            script: ['"Alex Brush"', 'cursive'],
+            cormorant: ['"Cormorant Garamond"', 'serif'],
+            sans: ['Montserrat', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #f4eee3;
+      background-image: radial-gradient(#e6dbc8 0.75px, transparent 0.75px);
+      background-size: 16px 16px;
+      color: #2b2b2b;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    /* Tag / Card Gold Border Framing */
+    .gold-tag-card {
+      background-color: #fbf7ee;
+      border: 3px solid #d4af37;
+      box-shadow: inset 0 0 0 4px #fbf7ee, inset 0 0 0 5px #c5a059, 0 15px 35px -5px rgba(0,0,0,0.15);
+      position: relative;
+    }
+
+    /* Gold Text Effect */
+    .gold-shimmer-text {
+      background: linear-gradient(135deg, #a88122 0%, #e3c467 40%, #b89028 70%, #89630e 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Print styling for 10x15 table card */
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #printable-card, #printable-card * {
+        visibility: visible;
+      }
+      #printable-card {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 10cm;
+        height: 15cm;
+        margin: 0;
+        padding: 0;
+        box-shadow: none !important;
+        background-color: #fbf7ee !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f4eee3;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #c5a059;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-gold-border selection:text-white">
+
+  <!-- HEADER / NAVIGATION BAR -->
+  <header class="sticky top-0 z-40 bg-[#fbf7ee]/95 backdrop-blur-md border-b border-gold-border/40 shadow-sm no-print">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex justify-between items-center">
+      <!-- Logo Branding -->
+      <a href="#" onclick="switchTab('home')" class="flex items-center space-x-2">
+        <span class="font-script text-3xl text-dark-charcoal font-bold leading-none">Karline</span>
+        <span class="text-xs font-serif tracking-widest gold-shimmer-text uppercase border-l border-gold-border/40 pl-2 font-bold">40 Anos</span>
+      </a>
+
+      <!-- Navigation Tabs -->
+      <nav class="flex items-center space-x-1 sm:space-x-2 text-xs sm:text-sm font-medium">
+        <button id="nav-home" onclick="switchTab('home')" class="nav-btn px-3 py-1.5 rounded-full transition-all flex items-center space-x-1 text-green-botanical bg-gold-light/40 border border-gold-border/30">
+          <i class="fa-solid fa-house text-xs"></i>
+          <span class="hidden sm:inline">Início</span>
+        </button>
+        <button id="nav-upload" onclick="switchTab('upload')" class="nav-btn px-3 py-1.5 rounded-full transition-all flex items-center space-x-1 text-gray-700 hover:text-green-botanical hover:bg-gold-light/20">
+          <i class="fa-solid fa-cloud-arrow-up text-xs"></i>
+          <span class="hidden sm:inline">Enviar</span>
+        </button>
+        <button id="nav-gallery" onclick="switchTab('gallery')" class="nav-btn px-3 py-1.5 rounded-full transition-all flex items-center space-x-1 text-gray-700 hover:text-green-botanical hover:bg-gold-light/20">
+          <i class="fa-solid fa-images text-xs"></i>
+          <span class="hidden sm:inline">Galeria</span>
+        </button>
+        <button id="nav-qrcode" onclick="switchTab('qrcode')" class="nav-btn px-3 py-1.5 rounded-full transition-all flex items-center space-x-1 text-gray-700 hover:text-green-botanical hover:bg-gold-light/20">
+          <i class="fa-solid fa-qrcode text-xs"></i>
+          <span class="hidden sm:inline">Plaquinha</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <main class="flex-grow max-w-4xl w-full mx-auto p-4 sm:p-6 md:p-8">
+
+    <!-- TAB 1: PÁGINA INICIAL DOS CONVIDADOS (ESTILO CONVITE DOURADO) -->
+    <section id="tab-home" class="tab-content block transition-all duration-300">
+      <div class="gold-tag-card rounded-[2.5rem] p-6 sm:p-12 text-center overflow-hidden my-4 relative">
+        
+        <!-- Tag Hole Ring Top Center -->
+        <div class="w-7 h-7 rounded-full border-2 border-gold-border bg-[#f4eee3] mx-auto mb-4 shadow-inner flex items-center justify-center">
+          <div class="w-3 h-3 rounded-full bg-gold-border/30"></div>
+        </div>
+
+        <!-- TOP LEFT BOTANICAL LEAF & FLOWER ILLUSTRATION -->
+        <div class="absolute -top-2 -left-2 w-36 sm:w-48 pointer-events-none z-10">
+          <svg viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full drop-shadow-sm">
+            <!-- Golden Leaf Branch -->
+            <path d="M10 10 Q 50 30 110 10" stroke="#d4af37" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M25 15 Q 20 0 35 5 Q 40 20 25 15 Z" fill="#d4af37"/>
+            <path d="M45 20 Q 45 2 60 10 Q 55 28 45 20 Z" fill="#c5a059"/>
+            <path d="M70 18 Q 75 0 90 8 Q 80 25 70 18 Z" fill="#d4af37"/>
+            <!-- Dark Green Leaves -->
+            <path d="M10 20 Q 20 70 10 120" stroke="#2c4333" stroke-width="3" stroke-linecap="round"/>
+            <path d="M12 40 Q -5 45 5 60 Q 20 50 12 40 Z" fill="#2c4333"/>
+            <path d="M11 65 Q -8 75 8 90 Q 22 75 11 65 Z" fill="#1e3024"/>
+            <path d="M10 90 Q -2 105 15 115 Q 20 100 10 90 Z" fill="#2c4333"/>
+            <!-- White Flowers -->
+            <circle cx="35" cy="45" r="7" fill="#ffffff" stroke="#d4af37" stroke-width="1"/>
+            <circle cx="35" cy="45" r="2" fill="#d4af37"/>
+            <circle cx="20" cy="75" r="8" fill="#ffffff" stroke="#d4af37" stroke-width="1"/>
+            <circle cx="20" cy="75" r="2.5" fill="#d4af37"/>
+            <circle cx="45" cy="85" r="6" fill="#ffffff" stroke="#d4af37" stroke-width="1"/>
+            <circle cx="45" cy="85" r="2" fill="#d4af37"/>
+          </svg>
+        </div>
+
+        <!-- BOTTOM RIGHT BOTANICAL LEAF & FLOWER ILLUSTRATION -->
+        <div class="absolute -bottom-2 -right-2 w-36 sm:w-48 pointer-events-none z-10 rotate-180">
+          <svg viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full drop-shadow-sm">
+            <path d="M10 10 Q 50 30 110 10" stroke="#d4af37" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M25 15 Q 20 0 35 5 Q 40 20 25 15 Z" fill="#d4af37"/>
+            <path d="M45 20 Q 45 2 60 10 Q 55 28 45 20 Z" fill="#c5a059"/>
+            <path d="M10 20 Q 20 70 10 120" stroke="#2c4333" stroke-width="3" stroke-linecap="round"/>
+            <path d="M12 40 Q -5 45 5 60 Q 20 50 12 40 Z" fill="#2c4333"/>
+            <path d="M11 65 Q -8 75 8 90 Q 22 75 11 65 Z" fill="#1e3024"/>
+            <circle cx="35" cy="45" r="7" fill="#ffffff" stroke="#d4af37" stroke-width="1"/>
+            <circle cx="35" cy="45" r="2" fill="#d4af37"/>
+            <circle cx="20" cy="75" r="8" fill="#ffffff" stroke="#d4af37" stroke-width="1"/>
+            <circle cx="20" cy="75" r="2.5" fill="#d4af37"/>
+          </svg>
+        </div>
+
+        <!-- NAME TITLE & GOLD 40 ANOS HEADER -->
+        <div class="relative z-20 space-y-1 mt-2">
+          <div class="flex items-center justify-center space-x-2">
+            <h1 class="font-script text-6xl sm:text-8xl text-dark-charcoal leading-none tracking-wide">Karline</h1>
+            <span class="text-gold-border font-serif text-3xl sm:text-5xl -mt-6">♡</span>
+          </div>
+
+          <!-- Gold 40 with Sunburst Rays -->
+          <div class="relative inline-block my-2">
+            <!-- Left rays -->
+            <div class="absolute -left-8 top-1/2 -translate-y-1/2 flex flex-col space-y-1">
+              <span class="w-4 h-0.5 bg-gold-border rotate-12"></span>
+              <span class="w-6 h-0.5 bg-gold-border"></span>
+              <span class="w-4 h-0.5 bg-gold-border -rotate-12"></span>
+            </div>
+
+            <div class="font-serif text-6xl sm:text-8xl font-bold gold-shimmer-text tracking-tighter leading-none">
+              40
+            </div>
+
+            <!-- Right rays -->
+            <div class="absolute -right-8 top-1/2 -translate-y-1/2 flex flex-col space-y-1">
+              <span class="w-4 h-0.5 bg-gold-border -rotate-12"></span>
+              <span class="w-6 h-0.5 bg-gold-border"></span>
+              <span class="w-4 h-0.5 bg-gold-border rotate-12"></span>
+            </div>
+
+            <div class="font-script text-4xl sm:text-5xl text-dark-charcoal -mt-3">anos</div>
+          </div>
+
+          <!-- Date Badge -->
+          <div class="flex justify-center items-center space-x-3 my-4">
+            <div class="w-12 sm:w-20 h-px bg-gold-border"></div>
+            <span class="font-serif text-base sm:text-xl tracking-widest font-semibold text-gold-dark">09 • 12 • 2026</span>
+            <div class="w-12 sm:w-20 h-px bg-gold-border"></div>
+          </div>
+        </div>
+
+        <!-- INVITATION MESSAGE BODY -->
+        <div class="relative z-20 max-w-xl mx-auto my-6 space-y-4">
+          <p class="font-serif text-lg sm:text-2xl text-dark-charcoal leading-relaxed font-medium">
+            Que bom ter você aqui para celebrar esse momento tão especial da minha vida!
+          </p>
+          <p class="font-serif text-base sm:text-xl text-gray-700 leading-relaxed italic">
+            Sua presença tornou meu aniversário ainda mais inesquecível. Compartilhe suas fotos e vídeos para guardarmos cada sorriso dessa festa!
+          </p>
+
+          <div class="pt-2">
+            <span class="font-script text-3xl sm:text-4xl text-gold-dark block">Muito obrigada!</span>
+            <span class="text-gold-border text-lg">♡</span>
+            <p class="text-xs font-serif uppercase tracking-widest text-gray-600 mt-1">Com carinho, <strong class="text-dark-charcoal font-semibold">Karline</strong></p>
+          </div>
+        </div>
+
+        <!-- ACTION BUTTONS -->
+        <div class="relative z-20 flex flex-col sm:flex-row justify-center items-center gap-4 pt-4">
+          <button onclick="switchTab('upload')" class="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-gold-dark via-gold-border to-gold-dark text-white font-medium rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-3 text-sm tracking-wider uppercase">
+            <i class="fa-solid fa-camera text-base"></i>
+            <span>Enviar Fotos e Vídeos</span>
+          </button>
+          
+          <button onclick="switchTab('gallery')" class="w-full sm:w-auto px-8 py-4 bg-[#fbf7ee] border-2 border-gold-border text-dark-charcoal font-medium rounded-full shadow-sm hover:bg-gold-light/20 transition-all duration-300 flex items-center justify-center space-x-2 text-sm">
+            <i class="fa-solid fa-images text-gold-dark"></i>
+            <span>Ver Galeria de Lembranças</span>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- TAB 2: FLUXO COMPLETO DE UPLOAD DE ARQUIVOS -->
+    <section id="tab-upload" class="tab-content hidden transition-all duration-300">
+      <div class="gold-tag-card rounded-3xl p-6 sm:p-8 max-w-2xl mx-auto my-4">
+        <div class="text-center mb-6">
+          <span class="text-xs uppercase tracking-widest text-gold-dark font-bold">40 Anos Karline</span>
+          <h2 class="font-serif text-2xl sm:text-3xl text-dark-charcoal font-semibold">Compartilhe Suas Fotos e Vídeos</h2>
+          <p class="text-xs text-gray-600 mt-1">Envie quantas recordações quiser direto do seu celular</p>
+        </div>
+
+        <!-- Collection status warning if closed -->
+        <div id="collection-closed-banner" class="hidden mb-6 p-4 bg-amber-50 border border-amber-300 text-amber-900 rounded-2xl text-center text-sm">
+          <i class="fa-solid fa-lock mr-2"></i> A coleta de mídias para este evento foi encerrada.
+        </div>
+
+        <!-- UPLOAD FORM -->
+        <form id="upload-form" class="space-y-5">
+          <!-- Guest Information -->
+          <div>
+            <label for="uploader-name" class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">Seu Nome (Opcional)</label>
+            <input type="text" id="uploader-name" placeholder="Ex: Amiga Maria / Família Silva" class="w-full px-4 py-3 rounded-xl border border-gold-border/40 bg-white/90 focus:outline-none focus:ring-2 focus:ring-gold-border text-sm">
+          </div>
+
+          <!-- Drag and Drop Zone -->
+          <div id="drop-zone" class="border-2 border-dashed border-gold-border hover:border-gold-dark rounded-2xl p-6 sm:p-8 text-center bg-gold-light/10 hover:bg-gold-light/30 transition-all cursor-pointer relative">
+            <input type="file" id="file-input" multiple accept="image/*,video/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+            <div class="pointer-events-none space-y-2">
+              <div class="w-14 h-14 bg-white rounded-full flex items-center justify-center mx-auto text-gold-dark shadow-sm border border-gold-border/30">
+                <i class="fa-solid fa-cloud-arrow-up text-2xl"></i>
+              </div>
+              <p class="text-sm font-medium text-dark-charcoal">Arraste seus arquivos aqui ou <span class="text-gold-dark underline">clique para escolher</span></p>
+              <p class="text-xs text-gray-500">Suporta Fotos e Vídeos da festa</p>
+            </div>
+          </div>
+
+          <!-- Selected Files Preview Grid -->
+          <div id="preview-container" class="hidden space-y-3">
+            <div class="flex justify-between items-center text-xs font-semibold text-gray-600">
+              <span>Arquivos Selecionados (<span id="file-count">0</span>)</span>
+              <button type="button" onclick="clearSelectedFiles()" class="text-gold-dark hover:underline">Limpar tudo</button>
+            </div>
+            <div id="preview-grid" class="grid grid-cols-3 sm:grid-cols-4 gap-3 max-h-60 overflow-y-auto p-2 bg-white/70 rounded-xl border border-gold-border/30">
+              <!-- Thumbnails generated dynamically JS -->
+            </div>
+          </div>
+
+          <!-- Upload Progress Bar -->
+          <div id="progress-container" class="hidden space-y-2">
+            <div class="flex justify-between text-xs font-medium text-gray-600">
+              <span id="progress-status">Guardando lembranças...</span>
+              <span id="progress-percent">0%</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden border border-gold-border/30">
+              <div id="progress-bar" class="bg-gradient-to-r from-gold-dark to-gold-border h-2.5 rounded-full w-0 transition-all duration-300"></div>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" id="btn-submit-upload" class="w-full py-3.5 px-6 bg-gradient-to-r from-green-botanical to-green-leaf text-white font-medium rounded-xl shadow-md hover:shadow-lg transition-all flex items-center justify-center space-x-2 text-sm uppercase tracking-wider disabled:opacity-50">
+            <i class="fa-solid fa-heart"></i>
+            <span>Enviar Mídias Agora</span>
+          </button>
+        </form>
+
+        <!-- Success Message Modal/Alert -->
+        <div id="upload-success-message" class="hidden mt-6 p-6 bg-emerald-50 border border-emerald-300 rounded-2xl text-center space-y-3">
+          <div class="w-12 h-12 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center mx-auto text-xl">
+            <i class="fa-solid fa-check"></i>
+          </div>
+          <h3 class="font-serif text-xl font-bold text-emerald-900">Mídias Recebidas!</h3>
+          <p class="text-xs text-emerald-800 max-w-sm mx-auto">Muito obrigado por compartilhar suas lembranças dos 40 anos da Karline! Suas fotos já estão na galeria.</p>
+          <div class="pt-2 flex justify-center gap-3">
+            <button onclick="resetUploadForm()" class="px-4 py-2 bg-green-botanical text-white text-xs font-medium rounded-lg hover:bg-green-leaf">Enviar Mais</button>
+            <button onclick="switchTab('gallery')" class="px-4 py-2 bg-white text-dark-charcoal border border-gold-border text-xs font-medium rounded-lg hover:bg-gold-light/20">Ver Galeria</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: GALERIA DIGITAL -->
+    <section id="tab-gallery" class="tab-content hidden transition-all duration-300">
+      <div class="space-y-6 my-4">
+        <!-- Gallery Header -->
+        <div class="text-center space-y-2">
+          <span class="text-xs font-bold uppercase tracking-widest text-gold-dark">Mural de Recordações</span>
+          <h2 class="font-serif text-3xl sm:text-4xl text-dark-charcoal">As lembranças dos 40 anos da Karline</h2>
+          <div class="w-16 h-0.5 bg-gold-border mx-auto"></div>
+        </div>
+
+        <!-- Filter Controls -->
+        <div class="flex justify-center items-center gap-2 text-xs font-medium">
+          <button onclick="filterGallery('all')" id="filter-all" class="filter-btn px-4 py-2 rounded-full bg-gold-dark text-white shadow-sm">
+            Todas (<span id="count-all">0</span>)
+          </button>
+          <button onclick="filterGallery('image')" id="filter-image" class="filter-btn px-4 py-2 rounded-full bg-white text-dark-charcoal border border-gold-border/40 hover:bg-gold-light/20">
+            <i class="fa-regular fa-image mr-1"></i> Fotos (<span id="count-image">0</span>)
+          </button>
+          <button onclick="filterGallery('video')" id="filter-video" class="filter-btn px-4 py-2 rounded-full bg-white text-dark-charcoal border border-gold-border/40 hover:bg-gold-light/20">
+            <i class="fa-solid fa-video mr-1"></i> Vídeos (<span id="count-video">0</span>)
+          </button>
+        </div>
+
+        <!-- Gallery Grid -->
+        <div id="gallery-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+          <!-- Gallery items will be populated dynamically -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="gallery-empty" class="text-center py-16 gold-tag-card rounded-3xl p-8 max-w-md mx-auto">
+          <div class="w-16 h-16 bg-gold-light/40 text-gold-dark rounded-full flex items-center justify-center mx-auto text-2xl mb-3 border border-gold-border/40">
+            <i class="fa-regular fa-images"></i>
+          </div>
+          <h3 class="font-serif text-lg font-semibold text-dark-charcoal">Ainda não há fotos publicadas</h3>
+          <p class="text-xs text-gray-600 mt-1 mb-4">Seja o primeiro a enviar uma lembrança!</p>
+          <button onclick="switchTab('upload')" class="px-5 py-2.5 bg-gold-dark text-white rounded-full text-xs font-medium hover:bg-gold-border">
+            Enviar Primeira Foto
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: PLAQUINHA DE MESA COM QR CODE (10x15 cm) -->
+    <section id="tab-qrcode" class="tab-content hidden transition-all duration-300">
+      <div class="space-y-6 my-4 no-print text-center">
+        <div>
+          <span class="text-xs uppercase tracking-widest text-gold-dark font-bold">Impressão para Mesa</span>
+          <h2 class="font-serif text-3xl text-dark-charcoal">Plaquinha com QR Code</h2>
+          <p class="text-xs text-gray-600 max-w-md mx-auto mt-1">Imprima esta plaquinha proporcional (10 × 15 cm) para colocar nas mesas dos convidados.</p>
+        </div>
+
+        <div class="flex justify-center gap-3">
+          <button onclick="window.print()" class="px-6 py-3 bg-gradient-to-r from-gold-dark via-gold-border to-gold-dark text-white text-xs font-semibold uppercase tracking-wider rounded-full shadow-md hover:shadow-lg transition-all flex items-center space-x-2">
+            <i class="fa-solid fa-print"></i>
+            <span>Imprimir Plaquinha (10 x 15 cm)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Printable Table Display Card (Exact 10x15cm layout styled like the invitation) -->
+      <div class="flex justify-center my-6">
+        <div id="printable-card" class="w-[10cm] h-[15cm] bg-[#fbf7ee] text-center p-4 relative border-[3px] border-gold-border rounded-2xl flex flex-col justify-between overflow-hidden box-border shadow-2xl">
+          
+          <!-- Inner Gold Frame Line -->
+          <div class="absolute inset-1 border border-gold-border/50 rounded-xl pointer-events-none"></div>
+
+          <!-- Top Section -->
+          <div class="z-10 pt-1">
+            <div class="font-script text-4xl text-dark-charcoal leading-none">Karline</div>
+            <div class="font-serif text-2xl font-bold gold-shimmer-text tracking-tight -mt-1">40 anos</div>
+            <div class="text-[9px] font-semibold text-gold-dark uppercase tracking-widest">09 • 12 • 2026</div>
+            <div class="w-12 h-0.5 bg-gold-border mx-auto my-1"></div>
+            <p class="font-serif text-[11px] text-dark-charcoal px-2 leading-tight font-medium">
+              "Que bom ter você aqui! Compartilhe suas fotos e vídeos conosco."
+            </p>
+          </div>
+
+          <!-- Middle Section: QR Code with high contrast clean background -->
+          <div class="z-10 my-auto">
+            <div class="bg-white p-2.5 rounded-xl inline-block border-2 border-gold-border shadow-sm">
+              <div id="qrcode-target" class="flex justify-center items-center"></div>
+            </div>
+          </div>
+
+          <!-- Bottom Section -->
+          <div class="z-10 pb-1">
+            <p class="text-[10px] font-bold text-dark-charcoal leading-tight px-1">
+              Aponte a câmera do seu celular para o QR Code e envie suas mídias!
+            </p>
+            <div class="mt-1 font-script text-lg text-gold-dark">
+              Muito obrigada! ♡ Karline
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- LIGHTBOX / MEDIA VIEW MODAL -->
+  <div id="media-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="relative max-w-4xl w-full bg-[#fbf7ee] rounded-2xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh] border-2 border-gold-border">
+      <!-- Modal Header -->
+      <div class="p-4 bg-white border-b border-gold-border/30 flex justify-between items-center">
+        <div>
+          <h4 id="modal-title" class="font-serif font-bold text-dark-charcoal text-base">Detalhes da Recordação</h4>
+          <p id="modal-subtitle" class="text-xs text-gray-500">Enviado por Convidado</p>
+        </div>
+        <button onclick="closeMediaModal()" class="w-8 h-8 rounded-full bg-gold-light/40 text-gold-dark hover:bg-gold-border hover:text-white flex items-center justify-center transition-all">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Modal Content Body -->
+      <div id="modal-body" class="p-4 flex-grow overflow-auto flex justify-center items-center bg-black/5 min-h-[300px]">
+        <!-- Image or Video injected dynamically -->
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-4 bg-white border-t border-gold-border/30 flex justify-between items-center">
+        <span id="modal-date" class="text-xs text-gray-500">Data de Envio</span>
+        <a id="modal-download-btn" download href="#" class="px-5 py-2 bg-gold-dark text-white rounded-xl text-xs font-medium hover:bg-gold-border flex items-center space-x-2">
+          <i class="fa-solid fa-download"></i>
+          <span>Baixar Arquivo Original</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="py-6 text-center text-xs text-gray-600 border-t border-gold-border/20 no-print mt-auto">
+    <div class="max-w-5xl mx-auto px-4 space-y-1">
+      <p class="font-serif font-semibold text-dark-charcoal">Karline — 40 Anos (09 • 12 • 2026)</p>
+      <p class="text-[10px] text-gray-500">Álbum Digital de Recordações do Aniversário</p>
+    </div>
+  </footer>
+
+  <!-- SCRIPT: frontend ligado ao backend Apps Script (Drive) -->
+  <script>
+    const API = 'https://script.google.com/macros/s/AKfycbyLni8w_lV9-zVTBwR7L5for1K5uod8wNP5JSFuw-m_62v8SB7DVLf50CT94t9ItyDe/exec';
+    const TOKEN = 'z38k8';
+    const MAX_BYTES = 50 * 1024 * 1024;
+    const GET_CHUNK = 6 * 1024 * 1024;
+
+    let selectedFiles = [];
+    let mediaList = [];
+    let currentFilter = 'all';
+    let ready = false;
+    let currentObjectUrl = null;
+
+    async function call(d, tries = 3) {
+      let last = { ok: false, err: 'rede' };
+      for (let i = 0; i < tries; i++) {
+        const ac = new AbortController();
+        const to = setTimeout(() => ac.abort(), 45000);
+        try {
+          const r = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify({ ...d, code: TOKEN }), signal: ac.signal });
+          clearTimeout(to);
+          const j = await r.json();
+          if (j.ok || ['codigo','permissao','tamanho','tipo','encerrado','sessao','sessao_expirada','offset','id','acao'].includes(j.err)) return j;
+          last = j;
+        } catch (e) { clearTimeout(to); last = { ok: false, err: String(e) }; }
+        await new Promise(r => setTimeout(r, 1500 * (i + 1)));
+      }
+      return last;
+    }
+
+    function bufToB64(buf) {
+      let s = ''; const a = new Uint8Array(buf);
+      for (let i = 0; i < a.length; i += 0x8000) s += String.fromCharCode.apply(null, Array.from(a.subarray(i, i + 0x8000)));
+      return btoa(s);
+    }
+
+    // --- TAB NAVIGATION ---
+    const TABS = ['home', 'upload', 'gallery', 'qrcode'];
+    function switchTab(tabId) {
+      TABS.forEach(t => {
+        const sec = document.getElementById('tab-' + t);
+        const btn = document.getElementById('nav-' + t);
+        if (!sec || !btn) return;
+        if (t === tabId) {
+          sec.classList.remove('hidden'); sec.classList.add('block');
+          btn.className = 'nav-btn px-3 py-1.5 rounded-full transition-all flex items-center space-x-1 text-green-botanical bg-gold-light/40 border border-gold-border/30';
+        } else {
+          sec.classList.add('hidden'); sec.classList.remove('block');
+          btn.className = 'nav-btn px-3 py-1.5 rounded-full transition-all flex items-center space-x-1 text-gray-700 hover:text-green-botanical hover:bg-gold-light/20';
+        }
+      });
+      if (tabId === 'qrcode') generateDynamicQRCode();
+      if (tabId === 'gallery') loadGallery();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // --- QR CODE (aponta para o endereço público da própria página) ---
+    function generateDynamicQRCode() {
+      const qrTarget = document.getElementById('qrcode-target');
+      qrTarget.innerHTML = '';
+      const currentUrl = window.location.href.split('#')[0];
+      try {
+        new QRCode(qrTarget, { text: currentUrl, width: 140, height: 140, colorDark: '#4a4a4a', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.H });
+      } catch (e) {
+        qrTarget.innerHTML = '<p class="text-[10px] text-gray-500 break-all p-2">' + currentUrl + '</p>';
+      }
+    }
+
+    // --- SELEÇÃO DE ARQUIVOS ---
+    function setupFilePicking() {
+      const dropZone = document.getElementById('drop-zone');
+      const fileInput = document.getElementById('file-input');
+      dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('border-gold-dark', 'bg-gold-light/40'); });
+      dropZone.addEventListener('dragleave', () => dropZone.classList.remove('border-gold-dark', 'bg-gold-light/40'));
+      dropZone.addEventListener('drop', e => {
+        e.preventDefault();
+        dropZone.classList.remove('border-gold-dark', 'bg-gold-light/40');
+        addFiles(Array.from(e.dataTransfer.files));
+      });
+      fileInput.addEventListener('change', e => { addFiles(Array.from(e.target.files)); e.target.value = ''; });
+    }
+
+    function addFiles(files) {
+      files.forEach(f => {
+        if (!/^(image|video)\//.test(f.type)) return;
+        if (f.size > MAX_BYTES) { alert('"' + f.name + '" passa de 50 MB e não pode ser enviado.'); return; }
+        if (!selectedFiles.some(x => x.name === f.name && x.size === f.size)) selectedFiles.push(f);
+      });
+      renderPreview();
+    }
+
+    function clearSelectedFiles() { selectedFiles = []; renderPreview(); }
+    function removeSelectedFile(i) { selectedFiles.splice(i, 1); renderPreview(); }
+
+    function renderPreview() {
+      const container = document.getElementById('preview-container');
+      const grid = document.getElementById('preview-grid');
+      document.getElementById('file-count').textContent = selectedFiles.length;
+      grid.innerHTML = '';
+      if (selectedFiles.length === 0) { container.classList.add('hidden'); return; }
+      container.classList.remove('hidden');
+      selectedFiles.forEach((f, i) => {
+        const card = document.createElement('div');
+        card.className = 'relative aspect-square rounded-lg overflow-hidden border border-gold-border/40 bg-white';
+        const url = URL.createObjectURL(f);
+        if (f.type.startsWith('video')) {
+          card.innerHTML = '<video src="' + url + '" class="w-full h-full object-cover" muted></video><span class="absolute bottom-1 left-1 bg-black/60 text-white text-[9px] px-1.5 py-0.5 rounded"><i class="fa-solid fa-video"></i></span>';
+        } else {
+          card.innerHTML = '<img src="' + url + '" class="w-full h-full object-cover">';
+        }
+        const del = document.createElement('button');
+        del.type = 'button';
+        del.className = 'absolute top-1 right-1 w-5 h-5 bg-red-600 text-white rounded-full text-[10px] flex items-center justify-center';
+        del.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+        del.onclick = () => removeSelectedFile(i);
+        card.appendChild(del);
+        grid.appendChild(card);
+      });
+    }
+
+    // --- ENVIO PARA O BACKEND (DRIVE) ---
+    function setProgress(pct, status) {
+      const c = document.getElementById('progress-container');
+      c.classList.remove('hidden');
+      document.getElementById('progress-bar').style.width = pct + '%';
+      document.getElementById('progress-percent').textContent = pct + '%';
+      if (status) document.getElementById('progress-status').textContent = status;
+    }
+
+    async function handleUploadSubmit(e) {
+      e.preventDefault();
+      if (!ready) { alert('A galeria ainda está abrindo. Aguarde um instante e tente de novo.'); return; }
+      if (selectedFiles.length === 0) { alert('Escolha pelo menos uma foto ou vídeo primeiro.'); return; }
+      const submitBtn = document.getElementById('btn-submit-upload');
+      submitBtn.disabled = true;
+      document.getElementById('upload-success-message').classList.add('hidden');
+      const uploader = document.getElementById('uploader-name').value.trim();
+      const total = selectedFiles.length;
+      let sent = 0, failed = 0;
+      for (let i = 0; i < total; i++) {
+        const f = selectedFiles[i];
+        setProgress(Math.round(sent / total * 100), 'Guardando lembranças... (' + (i + 1) + ' de ' + total + ') ' + f.name);
+        const name = (uploader ? uploader.replace(/[\r\n]/g, ' ').slice(0, 40) + ' - ' : '') + f.name;
+        const init = await call({ action: 'init', name: name, mime: f.type, size: f.size });
+        if (!init.ok) {
+          failed++;
+          if (init.err === 'encerrado') { document.getElementById('collection-closed-banner').classList.remove('hidden'); break; }
+          if (init.err === 'tamanho') alert('"' + f.name + '" passa de 50 MB e não pode ser enviado.');
+          continue;
+        }
+        let off = 0, bad = false;
+        while (off < f.size) {
+          const part = await f.slice(off, off + init.chunk).arrayBuffer();
+          const r = await call({ action: 'chunk', uploadId: init.uploadId, offset: off, b64: bufToB64(part) }, 4);
+          if (!r.ok) { bad = true; failed++; break; }
+          off += part.byteLength;
+          setProgress(Math.round((i + off / f.size) / total * 100));
+        }
+        if (!bad) sent++;
+      }
+      submitBtn.disabled = false;
+      if (sent > 0) {
+        setProgress(100, 'Concluído!');
+        document.getElementById('upload-success-message').classList.remove('hidden');
+        document.getElementById('preview-container').classList.add('hidden');
+        selectedFiles = [];
+        document.getElementById('preview-grid').innerHTML = '';
+        document.getElementById('file-count').textContent = '0';
+        loadGallery();
+      } else if (failed > 0) {
+        setProgress(0, 'Não foi possível enviar. Confira sua internet e tente de novo.');
+      }
+    }
+
+    function resetUploadForm() {
+      document.getElementById('upload-success-message').classList.add('hidden');
+      document.getElementById('progress-container').classList.add('hidden');
+      setProgress(0, 'Guardando lembranças...');
+    }
+
+    // --- GALERIA COMPARTILHADA ---
+    function displayName(raw) { return raw.replace(/^\d{8}-\d{6}-/, ''); }
+
+    async function loadGallery() {
+      const r = await call({ action: 'list' }, 2);
+      if (!r.ok) return;
+      mediaList = r.files.map(x => ({ id: x.id, rawName: x.name, name: displayName(x.name), mime: x.mime, size: Number(x.size), t: x.t, type: x.mime.startsWith('video') ? 'video' : 'image', thumb: null }));
+      document.getElementById('count-all').textContent = mediaList.length;
+      document.getElementById('count-image').textContent = mediaList.filter(x => x.type === 'image').length;
+      document.getElementById('count-video').textContent = mediaList.filter(x => x.type === 'video').length;
+      renderGallery();
+      mediaList.forEach(async item => {
+        const t = await call({ action: 'thumb', id: item.id }, 2);
+        if (t.ok && t.b64) { item.thumb = 'data:' + t.mime + ';base64,' + t.b64; renderGallery(); }
+      });
+    }
+
+    function filterGallery(type) {
+      currentFilter = type;
+      ['all', 'image', 'video'].forEach(t => {
+        const b = document.getElementById('filter-' + t);
+        b.className = t === type
+          ? 'filter-btn px-4 py-2 rounded-full bg-gold-dark text-white shadow-sm'
+          : 'filter-btn px-4 py-2 rounded-full bg-white text-dark-charcoal border border-gold-border/40 hover:bg-gold-light/20';
+      });
+      renderGallery();
+    }
+
+    function renderGallery() {
+      const grid = document.getElementById('gallery-grid');
+      const empty = document.getElementById('gallery-empty');
+      const filtered = mediaList.filter(x => currentFilter === 'all' || x.type === currentFilter);
+      grid.innerHTML = '';
+      if (filtered.length === 0) { empty.classList.remove('hidden'); return; }
+      empty.classList.add('hidden');
+      filtered.forEach(item => {
+        const card = document.createElement('button');
+        card.className = 'relative aspect-square rounded-2xl overflow-hidden border-2 border-gold-border/50 bg-white shadow-sm hover:shadow-lg hover:scale-[1.02] transition-all';
+        card.setAttribute('aria-label', item.name);
+        card.onclick = () => openMediaModal(item);
+        if (item.thumb) {
+          card.innerHTML = '<img src="' + item.thumb + '" class="w-full h-full object-cover" loading="lazy">';
+        } else {
+          card.innerHTML = '<div class="w-full h-full flex items-center justify-center bg-gold-light/20 text-gold-dark text-3xl"><i class="fa-solid ' + (item.type === 'video' ? 'fa-video' : 'fa-image') + '"></i></div>';
+        }
+        if (item.type === 'video') {
+          const badge = document.createElement('span');
+          badge.className = 'absolute bottom-1.5 left-1.5 bg-black/60 text-white text-[9px] px-2 py-0.5 rounded-full';
+          badge.innerHTML = '<i class="fa-solid fa-play mr-1"></i>vídeo';
+          card.appendChild(badge);
+        }
+        grid.appendChild(card);
+      });
+    }
+
+    // --- MODAL DE VISUALIZAÇÃO ---
+    let loadingId = '';
+    async function openMediaModal(item) {
+      const modal = document.getElementById('media-modal');
+      const body = document.getElementById('modal-body');
+      modal.classList.remove('hidden');
+      document.getElementById('modal-title').textContent = item.name;
+      const parts = item.name.split(' - ');
+      document.getElementById('modal-subtitle').textContent = parts.length > 1 ? 'Enviado por ' + parts[0] : 'Enviado por convidado';
+      document.getElementById('modal-date').textContent = item.t ? new Date(item.t).toLocaleString('pt-BR') : '';
+      const dl = document.getElementById('modal-download-btn');
+      dl.href = '#'; dl.classList.add('opacity-40', 'pointer-events-none');
+      body.innerHTML = '<div class="text-center text-gold-dark text-sm py-16"><i class="fa-solid fa-circle-notch fa-spin text-2xl mb-2"></i><p id="modal-loading-pct">Carregando 0%</p></div>';
+      loadingId = item.id;
+      const chunks = []; let off = 0;
+      while (off < item.size) {
+        const r = await call({ action: 'get', id: item.id, offset: off, length: GET_CHUNK }, 4);
+        if (loadingId !== item.id) return;
+        if (!r.ok) { body.innerHTML = '<p class="text-red-600 text-sm py-16">Não foi possível carregar agora. Tente de novo.</p>'; return; }
+        const bin = atob(r.b64), u = new Uint8Array(bin.length);
+        for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i);
+        chunks.push(u); off += u.length;
+        const pct = document.getElementById('modal-loading-pct');
+        if (pct) pct.textContent = 'Carregando ' + Math.round(off / item.size * 100) + '%';
+      }
+      if (currentObjectUrl) URL.revokeObjectURL(currentObjectUrl);
+      currentObjectUrl = URL.createObjectURL(new Blob(chunks, { type: item.mime }));
+      body.innerHTML = item.type === 'video'
+        ? '<video src="' + currentObjectUrl + '" controls playsInline autoplay class="max-w-full max-h-[65vh] rounded-lg"></video>'
+        : '<img src="' + currentObjectUrl + '" class="max-w-full max-h-[65vh] rounded-lg object-contain">';
+      dl.href = currentObjectUrl; dl.download = item.name;
+      dl.classList.remove('opacity-40', 'pointer-events-none');
+    }
+
+    function closeMediaModal() {
+      loadingId = '';
+      const modal = document.getElementById('media-modal');
+      modal.classList.add('hidden');
+      document.getElementById('modal-body').innerHTML = '';
+      if (currentObjectUrl) { URL.revokeObjectURL(currentObjectUrl); currentObjectUrl = null; }
+    }
+
+    // --- INICIALIZAÇÃO ---
+    async function boot() {
+      setupFilePicking();
+      document.getElementById('upload-form').addEventListener('submit', handleUploadSubmit);
+      const r = await call({ action: 'ping' }, 3);
+      if (r.ok) {
+        ready = true;
+        if (r.closed) {
+          document.getElementById('collection-closed-banner').classList.remove('hidden');
+          document.getElementById('btn-submit-upload').disabled = true;
+        }
+        loadGallery();
+      } else {
+        document.getElementById('progress-status').textContent = 'Não foi possível abrir a galeria agora. Recarregue a página.';
+      }
+    }
+    document.addEventListener('DOMContentLoaded', boot);
+  </script>
+</body>
+</html>
