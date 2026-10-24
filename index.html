@@ -491,7 +491,7 @@
       let last = { ok: false, err: 'rede' };
       for (let i = 0; i < tries; i++) {
         const ac = new AbortController();
-        const to = setTimeout(() => ac.abort(), 45000);
+        const to = setTimeout(() => ac.abort(), 90000);
         try {
           const r = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify({ ...d, code: TOKEN }), signal: ac.signal });
           clearTimeout(to);
@@ -624,13 +624,16 @@
           if (init.err === 'tamanho') alert('"' + f.name + '" passa de 50 MB e não pode ser enviado.');
           continue;
         }
-        let off = 0, bad = false;
+        let off = 0, bad = false, stalls = 0;
         while (off < f.size) {
           const part = await f.slice(off, off + init.chunk).arrayBuffer();
-          const r = await call({ action: 'chunk', uploadId: init.uploadId, offset: off, b64: bufToB64(part) }, 4);
-          if (!r.ok) { bad = true; failed++; break; }
-          off += part.byteLength;
-          setProgress(Math.round((i + off / f.size) / total * 100));
+          const r = await call({ action: 'chunk', uploadId: init.uploadId, offset: off, b64: bufToB64(part) }, 2);
+          if (r.ok) { off += part.byteLength; stalls = 0; setProgress(Math.round((i + off / f.size) / total * 100)); continue; }
+          let srv = (r.err === 'offset' && typeof r.expected === 'number') ? r.expected : null;
+          if (srv === null) { const st = await call({ action: 'status', uploadId: init.uploadId }, 2); if (st.ok) srv = st.next; }
+          if (srv !== null && srv > off) { off = srv; stalls = 0; setProgress(Math.round((i + off / f.size) / total * 100)); continue; }
+          if (srv === off && ++stalls <= 5) continue;
+          bad = true; failed++; break;
         }
         if (!bad) sent++;
       }
